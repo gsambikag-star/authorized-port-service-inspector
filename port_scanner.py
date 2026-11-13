@@ -1,10 +1,12 @@
+from concurrent.futures import ThreadPoolExecutor
 
 import socket
+from concurrent.futures import ThreadPoolExecutor
 
-# Target computer
+# Target computer (localhost only)
 target = "127.0.0.1"
 
-# List of ports to scan
+# Ports to scan
 ports = [22, 80, 443, 3306, 8080]
 
 # Service identification
@@ -19,18 +21,13 @@ services = {
     8080: "HTTP-ALT"
 }
 
-print("Starting Port Scanner...")
-print("Target:", target)
-print("-" * 55)
 
-# Scan each port
-for port in ports:
+# Function to scan an individual port
+def scan_port(port):
 
-    # Get service name
     service = services.get(port, "Unknown")
 
     try:
-        # Create socket
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
             # Set timeout
@@ -39,7 +36,6 @@ for port in ports:
             # Attempt connection
             s.connect((target, port))
 
-            # Connection successful
             status = "OPEN"
 
     except ConnectionRefusedError:
@@ -51,8 +47,22 @@ for port in ports:
     except OSError as error:
         status = f"ERROR ({error})"
 
-    # Display results
-    print(f"Port {port:<5} | {service:<10} | {status}")
+    return port, service, status
 
-print("-" * 55)
+
+print("Starting Multithreaded Port Scanner...")
+print("Target:", target)
+print("-" * 60)
+
+# Create a thread pool
+with ThreadPoolExecutor(max_workers=5) as executor:
+
+    # Scan multiple ports concurrently
+    results = executor.map(scan_port, ports)
+
+    # Display results
+    for port, service, status in results:
+        print(f"Port {port:<5} | {service:<10} | {status}")
+
+print("-" * 60)
 print("Port scanning completed!")

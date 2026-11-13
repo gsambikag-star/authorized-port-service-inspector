@@ -12,6 +12,7 @@ To inspect localhost (127.0.0.1) for open and closed ports using Python socket p
 - Socket Programming
 - TCP/IP
 - Git and GitHub
+- concurrent.futures
 
 ## Features Implemented
 - Localhost port scanning
@@ -30,6 +31,11 @@ To inspect localhost (127.0.0.1) for open and closed ports using Python socket p
 - Graceful handling of socket errors
 - Automatic socket resource cleanup
 - Separate OPEN, CLOSED, TIMEOUT and ERROR statuses
+- Scans multiple ports concurrently.
+- Uses up to 5 worker threads.
+- Identifies common network services.
+- Handles connection errors and timeouts.
+- Displays each port's status (OPEN, CLOSED, TIMEOUT, or ERROR).
 
 ## Ports Tested
 - 22 - SSH
@@ -65,6 +71,8 @@ Phase 2 - Basic Port Scanning Completed.
 Phase 3 - Service Identification Completed.
 
 Phase 4 - Timeout and Error Handling Completed.
+
+Phase 5 - Implemented multithreading using Python's `ThreadPoolExecutor`.
 
 ## Author 
 Ambika G.S
