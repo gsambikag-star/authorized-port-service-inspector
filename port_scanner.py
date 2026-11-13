@@ -7,12 +7,27 @@ target = "127.0.0.1"
 # List of ports to scan
 ports = [22, 80, 443, 3306, 8080]
 
+# Dictionary containing service names
+services = {
+    21: "FTP",
+    22: "SSH",
+    25: "SMTP",
+    53: "DNS",
+    80: "HTTP",
+    443: "HTTPS",
+    3306: "MySQL",
+    8080: "HTTP-ALT"
+}
+
 print("Starting Port Scanner...")
 print("Target:", target)
-print("-" * 35)
+print("-" * 50)
 
 # Scan each port
 for port in ports:
+
+    # Get the service name
+    service = services.get(port, "Unknown")
 
     # Create a socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,14 +38,16 @@ for port in ports:
     # Try connecting to the port
     result = s.connect_ex((target, port))
 
-    # Display result
+    # Display port, service and status
     if result == 0:
-        print(f"Port {port}: OPEN")
+        status = "OPEN"
     else:
-        print(f"Port {port}: CLOSED")
+        status = "CLOSED"
+
+    print(f"Port {port:<5} | {service:<10} | {status}")
 
     # Close socket
     s.close()
 
-print("-" * 35)
+print("-" * 50)
 print("Port scanning completed!")
