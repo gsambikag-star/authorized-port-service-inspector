@@ -15,5 +15,7 @@ To inspect localhost (127.0.0.1) for open ports using Python socket programming 
 ## Project Status
 Phase 1 - Project Setup Completed
 
+Phase 2 - Basic Port Scanning Completed.
+
 ## Safety
 This tool is restricted to scanning localhost (127.0.0.1) only.
